@@ -68,7 +68,10 @@ function PokemonList() {
                         ListOfPokemons.map((p)=> <Pokemon key={p.id}  name={p.name} img={p.img} types={p.types}/> )
                     }
                 </div>
-            
+                <div className="button-prev-next">
+                    <button className="button-prev">prev</button>
+                    <button className="button-next">next</button>
+                </div>
             </div>
         </>
     )
