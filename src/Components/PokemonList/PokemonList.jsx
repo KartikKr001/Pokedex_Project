@@ -7,18 +7,26 @@ import "../PokemonList/PokemonList.css"
 function PokemonList() {
     const [ListOfPokemons,setListOfPokemons] = useState([]);
     const [isDownloading,SetDownloading] = useState(true);
-    const POKEDEX_URL = 'https://pokeapi.co/api/v2/pokemon';
+    const [PokedexUrl,setPokedexUrl] = useState('https://pokeapi.co/api/v2/pokemon');
+    
+    const [nextUrl,setNextUrl] = useState('');
+    const [prevUrl,setPrevUrl] = useState('');
+
     async function getResponse(){
-        const response = await axios.get('https://pokeapi.co/api/v2/pokemon')
+        SetDownloading(true);
+        const response = await axios.get(PokedexUrl);
+        console.log(response);
         // array of 20 pokemons
         const pokemonResults = response.data.results;
 
+        setNextUrl(response.data.next);
+        setPrevUrl(response.data.previous);
+        
         // iterating array of pokemons ,and using their url to create array of promises
         const pokemonResultsPromise = pokemonResults.map((pokemon)=>axios.get(pokemon.url));
-
+        
         // passing all these to axios.all
         const fin_data = await axios.all(pokemonResultsPromise);
-        
         // iterate on each pokemon,extract id ,name,image,,types
         const res = fin_data.map((pokemon)=>{
             const pokeData = pokemon.data;
@@ -37,7 +45,7 @@ function PokemonList() {
 
     useEffect(()=>{
         getResponse();
-    },[]);
+    },[PokedexUrl]);
 
     /*
 
@@ -69,8 +77,9 @@ function PokemonList() {
                     }
                 </div>
                 <div className="button-prev-next">
-                    <button className="button-prev">prev</button>
-                    <button className="button-next">next</button>
+    
+                    <button className="button-prev" disabled={prevUrl == null} onClick={()=>setPokedexUrl(prevUrl)}>prev</button>
+                    <button className="button-next" disabled={nextUrl == null} onClick={()=>setPokedexUrl(nextUrl)}>next</button>
                 </div>
             </div>
         </>
