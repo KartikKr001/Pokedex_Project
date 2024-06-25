@@ -1,0 +1,9 @@
+#pokedex-heading{
+    margin: 1% auto;
+    letter-spacing: 3px;
+    font-size: 70px;
+}
+.search-box-wrapper{
+    display: flex;
+    flex-direction: column;
+}

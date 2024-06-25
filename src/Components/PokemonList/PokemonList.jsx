@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import Pokemon from "../Pokemon/Pokemon";
 import "../PokemonList/PokemonList.css"
-
+import CustomRoutes from "../Routes/CustomRoutes";
 function PokemonList() {
     const [ListOfPokemons,setListOfPokemons] = useState([]);
     const [isDownloading,SetDownloading] = useState(true);
@@ -66,14 +66,14 @@ function PokemonList() {
     return(
         <>
             <div className="pokemon-list-wrapper">
-                List of Pokemons
+                <h3 className="pokedex-list-heading">List of Pokemons</h3>
             {/*
                 X:{x} <button onClick={()=>setX(x+1)}>Inc</button><br/>
                 Y:{y} <button onClick={()=>setY(y+1)}>Inc</button>
             */}            
                 <div className="pokemons-name-image">
                     {(isDownloading)? "List is being downloaded":
-                        ListOfPokemons.map((p)=> <Pokemon key={p.id}  name={p.name} img={p.img} types={p.types}/> )
+                        ListOfPokemons.map((p)=> <Pokemon key={p.id}  name={p.name} img={p.img} id={p.id} types={p.types}/> )
                     }
                 </div>
                 <div className="button-prev-next">
