@@ -1,5 +1,4 @@
 import './App.css'
-import Pokedex from './Components/Pokedex/Pokedex'
 import CustomRoutes from './Components/Routes/CustomRoutes'
 import Search from './Components/Search/Search'
 import { Link } from 'react-router-dom'
@@ -13,7 +12,8 @@ function App() {
               Pokedex
             </Link>
           </h1>
-        <Search/>
+          <Search/>
+
       </div>
       <CustomRoutes/>
     </div>

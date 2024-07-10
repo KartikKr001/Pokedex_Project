@@ -1,14 +1,54 @@
-import './Search.css'
+import React, { useState, useEffect } from 'react';
+import '../Search/Search.css';
+import usePokemonList from '../Hooks/usePokemonList';
+import { Link } from 'react-router-dom';
 
-function Search(){
-    return(
-        <div className="search-wrapper">
-            <input 
-                id="pokemon-name-search"
-                type="text"
-                placeholder="Pokemon name ..."    
-            />
-        </div>
-    );
-}
-export default Search
+const Search = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredPokemons, setFilteredPokemons] = useState([]);
+  const { pokemonListStates } = usePokemonList('https://pokeapi.co/api/v2/pokemon?limit=1000');
+  const [prevC,setPrev] = useState(5);
+  
+  useEffect(() => {
+    if (searchQuery === '') {
+      setFilteredPokemons([]);
+    } else {
+      setFilteredPokemons(
+        pokemonListStates.ListOfPokemons.filter(p => 
+          p.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+    }
+  }, [searchQuery, pokemonListStates]);
+
+  const resetSearch = () => {
+    setSearchQuery('');
+    setFilteredPokemons([]);
+  };
+
+  
+
+  return (
+    <div className='search-wrapper'>
+      <input 
+        type="text" 
+        placeholder="Search Pokémon" 
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+      <ul>
+        {filteredPokemons.slice(0, prevC).map(p => (
+            <li key={p.name}>
+              <Link onClick={resetSearch} to={`/pokemon/${p.id}`}>
+                {p.name}
+              </Link>
+            </li>
+        ))
+      }
+      </ul>
+      {searchQuery != "" ? <button onClick={()=>setPrev(prevC+5)}>Load More</button> : <></>}
+    </div>
+  );
+};
+
+export default Search;

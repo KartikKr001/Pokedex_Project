@@ -20,7 +20,7 @@ function PokemonDetails(){
 
     useEffect(()=>{
         downloadPokemon();
-    },[]);
+    },[id]);
     return(
         <div className="final-wrap">
         <div className="pokemon-details-wrapper">
