@@ -3,7 +3,8 @@ import "../PokemonList/PokemonList.css"
 import usePokemonList from "../Hooks/usePokemonList";
 
 function PokemonList() {
-    const {pokemonListStates,setPokemonListStates} = usePokemonList('https://pokeapi.co/api/v2/pokemon');
+    const apiUrl = import.meta.env.VITE_API_URL;
+    const {pokemonListStates,setPokemonListStates} = usePokemonList(`${apiUrl}/pokemon`);
     return(
         <>
             <div className="pokemon-list-wrapper">
