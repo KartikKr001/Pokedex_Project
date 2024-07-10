@@ -1,54 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import '../Search/Search.css';
-import usePokemonList from '../Hooks/usePokemonList';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 
-const Search = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filteredPokemons, setFilteredPokemons] = useState([]);
-  const { pokemonListStates } = usePokemonList('https://pokeapi.co/api/v2/pokemon?limit=1000');
-  const [prevC,setPrev] = useState(5);
-  
-  useEffect(() => {
-    if (searchQuery === '') {
-      setFilteredPokemons([]);
-    } else {
-      setFilteredPokemons(
-        pokemonListStates.ListOfPokemons.filter(p => 
-          p.name.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      );
+const Pokedex = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [pokemonData, setPokemonData] = useState([]);
+
+  const apiUrl = import.meta.env.VITE_API_URL;
+  console.log("url",apiUrl)
+  const handleSearch = async () => {
+    console.log('Searching for:', searchTerm); // Debug log
+    try {
+      const response = await fetch(`${apiUrl}/pokemon/${searchTerm.toLowerCase()}`);
+      if (response.ok) {
+        const data = await response.json();
+        setPokemonData([data]);
+        console.log('Search results:', data); // Debug log
+      } else {
+        setPokemonData([]);
+        console.error('Pokemon not found');
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
-  }, [searchQuery, pokemonListStates]);
-
-  const resetSearch = () => {
-    setSearchQuery('');
-    setFilteredPokemons([]);
   };
 
-  
-
   return (
-    <div className='search-wrapper'>
-      <input 
-        type="text" 
-        placeholder="Search Pokémon" 
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
+    <div>
+      <h1 className="main-heading">Pokedex</h1>
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        placeholder="Search for a Pokémon..."
       />
-      <ul>
-        {filteredPokemons.slice(0, prevC).map(p => (
-            <li key={p.name}>
-              <Link onClick={resetSearch} to={`/pokemon/${p.id}`}>
-                {p.name}
-              </Link>
-            </li>
-        ))
-      }
-      </ul>
-      {searchQuery != "" ? <button onClick={()=>setPrev(prevC+5)}>Load More</button> : <></>}
+      <button onClick={handleSearch}>Search</button>
+      {pokemonData.length > 0 && (
+        <div>
+          {pokemonData.map((pokemon) => (
+            <div key={pokemon.id}>
+              <h2>{pokemon.name}</h2>
+              <img src={pokemon.sprites.front_default} alt={pokemon.name} />
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-export default Search;
+export default Pokedex;
