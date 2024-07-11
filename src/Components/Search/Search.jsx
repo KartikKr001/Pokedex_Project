@@ -7,7 +7,7 @@ const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredPokemons, setFilteredPokemons] = useState([]);
   const apiUrl = import.meta.env.VITE_API_URL;
-  const { pokemonListStates } = usePokemonList(`${apiUrl}/pokemon?limit=1000`);
+  const { pokemonListStates , setPokemonListStates } = usePokemonList(`${apiUrl}/pokemon?limit=1000`);
   const [prevC, setPrev] = useState(5);
 
   useEffect(() => {
@@ -38,9 +38,7 @@ const Search = () => {
       <ul>
         {filteredPokemons.slice(0, prevC).map(p => (
           <li key={p.name}>
-            <Link onClick={resetSearch} to={`/pokemon/${p.id}`}>
-              {p.name}
-            </Link>
+            {p.name}
           </li>
         ))}
       </ul>
