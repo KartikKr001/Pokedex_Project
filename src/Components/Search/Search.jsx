@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import '../Search/Search.css';
 import usePokemonList from '../Hooks/usePokemonList';
-import { Link } from 'react-router-dom';
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredPokemons, setFilteredPokemons] = useState([]);
-  const apiUrl = import.meta.env.VITE_API_URL;
+  const apiUrl = "https://pokeapi.co/api/v2";
   const { pokemonListStates , setPokemonListStates } = usePokemonList(`${apiUrl}/pokemon?limit=1000`);
   const [prevC, setPrev] = useState(5);
   console.log("list recieved: ",pokemonListStates);
