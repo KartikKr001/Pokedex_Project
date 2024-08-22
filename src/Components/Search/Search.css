@@ -7,3 +7,27 @@ input{
 .search-wrapper{
   margin-left: 1%; 
 }
+.Link_pok{
+  text-decoration: none;
+  text-decoration-line: none;
+  margin-left: none;
+  padding-left: none;
+  color: brown; 
+  text-transform: capitalize;
+}
+li{
+  width: 50%;
+  margin: 5px 10px;
+  background-color: whitesmoke;
+  list-style: none;
+  padding-left: none; 
+  padding: 2px;
+}
+li:hover{
+  background-color: rgb(254, 225, 99);
+  list-style: none;
+  padding-left: none; 
+}
+ul{
+  padding: 0%;
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../Search/Search.css';
 import usePokemonList from '../Hooks/usePokemonList';
+import { Link } from 'react-router-dom';
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -36,8 +37,10 @@ const Search = () => {
       {console.log("new filtered: ",filteredPokemons)}
       <ul>
         {filteredPokemons.slice(0, prevC).map(p => (
-          <li key={p.name}>
-            {p.name}
+          <li key={p.name} onClick={()=>resetSearch()} className='listing'>
+            <Link className="Link_pok" to={`/pokemon/${p.id}`}>
+              {p.name}
+            </Link>
           </li>
         ))}
       </ul>
